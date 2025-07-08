@@ -1,2 +1,14 @@
-package com.example.recipeapp.global.exception;public class CustomException {
+package com.example.recipeapp.global.exception;
+
+import lombok.Getter;
+
+@Getter
+public class CustomException extends RuntimeException{
+
+    private final ErrorCode errorCode;
+
+    public CustomException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
+    }
 }
