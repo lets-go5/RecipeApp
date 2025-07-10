@@ -6,6 +6,8 @@ import com.example.recipeapp.domain.recipes.controller.dto.RecipeUpdateRequest;
 import com.example.recipeapp.domain.recipes.domain.model.Recipe;
 import com.example.recipeapp.domain.recipes.domain.repository.RecipeRepository;
 import com.example.recipeapp.domain.user.domain.model.User;
+import com.example.recipeapp.global.exception.CustomException;
+import com.example.recipeapp.global.exception.ErrorCode;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,14 +47,14 @@ public class RecipeService {
     @Transactional(readOnly = true)
     public RecipeResponse getRecipeById(Long recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 레시피가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.RECIPE_NOT_FOUND));
         return new RecipeResponse(recipe);
     }
 
     // 수정
     public void updateRecipe(Long recipeId, RecipeUpdateRequest request) {
         Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 레시피가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.RECIPE_NOT_FOUND));
 
         recipe.update(request.getTitle(), request.getContent(), request.getCategory(), request.getImageUrl());
     }
@@ -60,7 +62,7 @@ public class RecipeService {
     // 삭제 (soft delete)
     public void deleteRecipe(Long recipeId) {
         Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 레시피가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.RECIPE_NOT_FOUND));
 
         recipeRepository.delete(recipe);
     }

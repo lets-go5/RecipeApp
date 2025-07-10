@@ -1,5 +1,7 @@
 package com.example.recipeapp.domain.recipes.controller;
 
+import com.example.recipeapp.global.exception.CustomException;
+import com.example.recipeapp.global.exception.ErrorCode;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import com.example.recipeapp.domain.auth.domain.model.AuthUser;
 import com.example.recipeapp.domain.recipes.controller.dto.RecipeCreateRequest;
@@ -25,7 +27,7 @@ public class RecipeController {
     @PostMapping
     public ResponseEntity<Long> createRecipe(@RequestBody RecipeCreateRequest request, @AuthenticationPrincipal AuthUser authUser) {
         User user = userRepository.findById(authUser.getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Long recipeId = recipeService.createRecipe(request, user);
         return ResponseEntity.ok(recipeId);
