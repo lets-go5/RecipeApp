@@ -42,7 +42,7 @@ public class DashboardController {
 //    }
 
     /**
-     * 카테고리표시 후 1등 레시피 조회
+     * 카테고리 1등 레시피 조회
      */
     @GetMapping("/v1/{categories}")
     public ResponseEntity<ApiResponse<CategoryBestRecipeResponseDto>> categoryRecipe(

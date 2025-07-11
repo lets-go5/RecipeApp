@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface RecipeRepositoryCustom extends JpaRepository<Recipe, Long> {
-    Recipe findTop1ByCategoryOrderByLikesDescCreatedAtDesc(RecipeCategory category);
+    Recipe findTop1ByCategoryOrderByLikesDescCreatedAtDesc(RecipeCategory category, LocalDateTime start, LocalDateTime end);
 
     Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 }
