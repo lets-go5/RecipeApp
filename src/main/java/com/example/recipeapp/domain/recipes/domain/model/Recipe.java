@@ -2,6 +2,7 @@ package com.example.recipeapp.domain.recipes.domain.model;
 
 import com.example.recipeapp.domain.user.domain.model.User;
 import com.example.recipeapp.global.entity.BaseTimeEntity;
+import com.example.recipeapp.domain.recipes.domain.model.RecipeCategory;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -61,6 +62,11 @@ public class Recipe extends BaseTimeEntity {
         this.content = content;
         this.category = category;
         this.imageUrl = imageUrl;
+    }
+
+    public void softDelete() {
+        this.isDeleted = true;
+        this.deletedAt = LocalDateTime.now();
     }
 
     public void increaseLikes() {

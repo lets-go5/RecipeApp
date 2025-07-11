@@ -15,6 +15,5 @@ public class DashboardResponseDto {
     private Long totalRecipeCount;      // 전체 레시피
 
     private List<RecipeCategory> categories; //카테고리 목록
-    private List<CategoryBestRecipeResponseDto> bestRecipe;   // 카테고리 + 인기 레시피 1개
 
 }
