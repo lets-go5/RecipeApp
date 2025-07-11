@@ -1,7 +1,11 @@
 package com.example.recipeapp.domain.recipes.controller;
 
+import com.example.recipeapp.domain.recipes.controller.dto.RecipeSummaryResponse;
+import com.example.recipeapp.domain.recipes.domain.model.Recipe;
+import com.example.recipeapp.domain.recipes.domain.repository.RecipeRepository;
 import com.example.recipeapp.global.exception.CustomException;
 import com.example.recipeapp.global.exception.ErrorCode;
+import com.example.recipeapp.global.response.ApiResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import com.example.recipeapp.domain.auth.domain.model.AuthUser;
 import com.example.recipeapp.domain.recipes.controller.dto.RecipeCreateRequest;
@@ -14,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,6 +29,8 @@ public class RecipeController {
 
     private final RecipeService recipeService;
     private final UserRepository userRepository;
+    private final RecipeRepository recipeRepository;
+
     // 1. 레시피 작성
     @PostMapping
     public ResponseEntity<Long> createRecipe(@RequestBody RecipeCreateRequest request, @AuthenticationPrincipal AuthUser authUser) {
@@ -57,5 +65,19 @@ public class RecipeController {
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // 6. 신규 레시피 조회
+    @GetMapping("/today")
+    public ApiResponse<List<RecipeResponse>> getTodayRecipes() {
+        List<RecipeResponse> todayRecipes = recipeService.getTodayRecipes();
+        return ApiResponse.success("오늘 등록된 신규 레시피 목록입니다.", todayRecipes);
+    }
+
+    // 7. 인기레시피
+    @GetMapping("/today/popular")
+    public ApiResponse<RecipeResponse> getTodayPopularRecipeByCategory(@RequestParam String category) {
+        RecipeResponse recipe = recipeService.getTodayPopularRecipeByCategory(category);
+        return ApiResponse.success("오늘의 인기 레시피입니다.", recipe);
     }
 }

@@ -20,4 +20,7 @@ public class RecipeResponse {
         this.imageUrl = recipe.getImageUrl();
         this.likes = recipe.getLikes();
     }
+    public static RecipeResponse from(Recipe recipe) {
+        return new RecipeResponse(recipe);
+    }
 }
