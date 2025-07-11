@@ -57,9 +57,20 @@ public class RecipeService {
     }
 
     // 수정
-    public void updateRecipe(Long recipeId, RecipeUpdateRequest request) {
+    public void updateRecipe(Long recipeId, RecipeUpdateRequest request, User currentUser) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new CustomException(ErrorCode.RECIPE_NOT_FOUND));
+
+        if (!recipe.getUser().getId().equals(currentUser.getId())) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_RECIPE_ACCESS);
+        }
+
+        recipe.update(
+                request.getTitle(),
+                request.getContent(),
+                request.getCategory(),
+                request.getImageUrl()
+        );
 
         recipe.update(request.getTitle(), request.getContent(), request.getCategory(), request.getImageUrl());
     }

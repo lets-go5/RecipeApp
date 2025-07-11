@@ -67,9 +67,13 @@ public class RecipeController {
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> updateRecipe(
             @PathVariable Long id,
-            @RequestBody RecipeUpdateRequest request) {
+            @RequestBody RecipeUpdateRequest request,
+            @AuthenticationPrincipal AuthUser authUser // 💡 인증된 사용자 정보 받기
+    ) {
+        User user = userRepository.findById(authUser.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)); // 유저 존재 확인
 
-        recipeService.updateRecipe(id, request);
+        recipeService.updateRecipe(id, request, user); // 작성자 정보 같이 넘겨주기
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.success("레시피가 수정되었습니다.", null));
