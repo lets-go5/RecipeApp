@@ -27,7 +27,7 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
 
     // 작성
-    public Long createRecipe(RecipeCreateRequest request, User user) {
+    public RecipeResponse createRecipe(RecipeCreateRequest request, User user) {
         Recipe recipe = Recipe.builder()
                 .user(user)
                 .title(request.getTitle())
@@ -36,7 +36,8 @@ public class RecipeService {
                 .imageUrl(request.getImageUrl())
                 .build();
 
-        return recipeRepository.save(recipe).getId();
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        return RecipeResponse.from(savedRecipe); // 또는 new RecipeResponse(savedRecipe)
     }
 
     // 전체 조회
