@@ -1,6 +1,7 @@
 package com.example.recipeapp.domain.like.domain.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import com.example.recipeapp.domain.recipes.domain.model.Recipe;
 import com.example.recipeapp.domain.user.domain.model.User;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(
         name = "likes",
         uniqueConstraints = {
