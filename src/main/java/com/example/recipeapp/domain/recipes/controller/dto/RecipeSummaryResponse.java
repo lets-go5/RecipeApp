@@ -1,6 +1,7 @@
 package com.example.recipeapp.domain.recipes.controller.dto;
 
 import com.example.recipeapp.domain.recipes.domain.model.Recipe;
+import com.example.recipeapp.domain.recipes.domain.model.RecipeCategory;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 public class RecipeSummaryResponse {
     private Long recipeId;
     private String title;
-    private String category;
+    private RecipeCategory category;
     private String imageUrl;
     private int likes;
     private LocalDateTime createdAt;

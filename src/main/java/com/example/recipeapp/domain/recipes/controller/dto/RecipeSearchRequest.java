@@ -1,5 +1,6 @@
 package com.example.recipeapp.domain.recipes.controller.dto;
 
+import com.example.recipeapp.domain.recipes.domain.model.RecipeCategory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -7,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecipeSearchRequest {
     private String title;
-    private String category;
+    private RecipeCategory category;
     private String nickname;
 }

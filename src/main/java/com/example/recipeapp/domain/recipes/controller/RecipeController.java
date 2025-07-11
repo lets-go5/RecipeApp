@@ -50,7 +50,8 @@ public class RecipeController {
     public ResponseEntity<ApiResponse<List<RecipeResponse>>> getAllRecipes() {
         List<RecipeResponse> allRecipes = recipeService.getAllRecipes();
         return ResponseEntity
-                .ok(ApiResponse.success("전체 레시피 목록입니다.", allRecipes));
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success("전체 레시피 목록입니다.", allRecipes));
     }
 
     // 3. 단일 레시피 조회
@@ -58,7 +59,8 @@ public class RecipeController {
     public ResponseEntity<ApiResponse<RecipeResponse>> getRecipe(@PathVariable Long id) {
         RecipeResponse recipe = recipeService.getRecipeById(id);
         return ResponseEntity
-                .ok(ApiResponse.success("레시피 상세 정보입니다.", recipe));
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success("레시피 상세 정보입니다.", recipe));
     }
 
     // 4. 레시피 수정
@@ -69,7 +71,8 @@ public class RecipeController {
 
         recipeService.updateRecipe(id, request);
         return ResponseEntity
-                .ok(ApiResponse.success("레시피가 수정되었습니다.", null));
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success("레시피가 수정되었습니다.", null));
     }
 
     // 5. 레시피 삭제
@@ -77,7 +80,8 @@ public class RecipeController {
     public ResponseEntity<ApiResponse<Void>> deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
         return ResponseEntity
-                .ok(ApiResponse.success("레시피가 삭제되었습니다.", null));
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success("레시피가 삭제되었습니다.", null));
     }
 
     // 6. 오늘 등록된 신규 레시피 조회
@@ -85,9 +89,7 @@ public class RecipeController {
     public ResponseEntity<ApiResponse<List<RecipeResponse>>> getTodayRecipes() {
         List<RecipeResponse> todayRecipes = recipeService.getTodayRecipes();
         return ResponseEntity
-                .ok(ApiResponse.success("오늘 등록된 신규 레시피 목록입니다.", todayRecipes));
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success("오늘 등록된 신규 레시피 목록입니다.", todayRecipes));
     }
-
-
-
 }

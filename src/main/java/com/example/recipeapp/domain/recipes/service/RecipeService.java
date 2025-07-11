@@ -88,7 +88,7 @@ public class RecipeService {
                 .toList();
     }
 
-    //오늘의 인기레시피(단일)
+    //오늘의 인기 레시피(단일)
     public RecipeResponse getTodayPopularRecipeByCategory(String category) {
         LocalDateTime start = LocalDateTime.now().toLocalDate().atStartOfDay();
         LocalDateTime end = start.plusDays(1);
