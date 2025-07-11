@@ -2,6 +2,7 @@ package com.example.recipeapp.domain.recipes.service;
 
 import com.example.recipeapp.domain.recipes.controller.dto.RecipeCreateRequest;
 import com.example.recipeapp.domain.recipes.controller.dto.RecipeResponse;
+import com.example.recipeapp.domain.recipes.controller.dto.RecipeSummaryResponse;
 import com.example.recipeapp.domain.recipes.controller.dto.RecipeUpdateRequest;
 import com.example.recipeapp.domain.recipes.domain.model.Recipe;
 import com.example.recipeapp.domain.recipes.domain.repository.RecipeRepository;
@@ -13,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,5 +69,31 @@ public class RecipeService {
                 .orElseThrow(() -> new CustomException(ErrorCode.RECIPE_NOT_FOUND));
 
         recipeRepository.delete(recipe);
+    }
+
+    // 신규 레시피
+    public List<RecipeResponse> getTodayRecipes() {
+        LocalDateTime startOfDay = LocalDateTime.now().toLocalDate().atStartOfDay(); // 오늘 00:00
+        LocalDateTime endOfDay = startOfDay.plusDays(1); // 내일 00:00
+
+        List<Recipe> recipes = recipeRepository.findAllByCreatedAtBetween(startOfDay, endOfDay);
+
+        if (recipes.isEmpty()) {
+            throw new CustomException(ErrorCode.NO_RECIPE_FOUND_TODAY);
+        }
+
+        return recipes.stream()
+                .map(RecipeResponse::from)
+                .toList();
+    }
+
+    //오늘의 인기레시피(단일)
+    public RecipeResponse getTodayPopularRecipeByCategory(String category) {
+        LocalDateTime start = LocalDateTime.now().toLocalDate().atStartOfDay();
+        LocalDateTime end = start.plusDays(1);
+
+        return recipeRepository.findTopByCategoryAndCreatedAtBetweenOrderByLikesDesc(category, start, end)
+                .map(RecipeResponse::new)
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_RECIPE_FOUND_TODAY));
     }
 }
