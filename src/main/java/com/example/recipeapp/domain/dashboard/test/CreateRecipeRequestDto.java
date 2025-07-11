@@ -6,15 +6,12 @@ import lombok.Getter;
 
 @Getter
 public class CreateRecipeRequestDto {
-
-    @NotNull
-    private Long userId;
     @NotBlank
     private String title;
     @NotBlank
     private String content;
     @NotNull
-    private TestRecipeCategoryEnum category;
+    private RecipeCategory category;
 
     private String imageUrl;
 }

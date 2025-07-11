@@ -1,19 +1,17 @@
 package com.example.recipeapp.domain.like.domain.model.entity;
 
-import com.example.recipeapp.domain.recipe.domain.model.Recipe;
+import com.example.recipeapp.domain.recipes.domain.model.Recipe;
 import com.example.recipeapp.domain.user.domain.model.User;
 import com.example.recipeapp.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Table(name="likes",
-        uniqueConstraints=@UniqueConstraint(columnNames={"user_id","recipe_id"}))
+@Table(name="likes")
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 public class Likes extends BaseTimeEntity {

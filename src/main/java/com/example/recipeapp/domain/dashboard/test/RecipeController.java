@@ -19,8 +19,9 @@ public class RecipeController {
     /** CREATE */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long create(@Valid @RequestBody CreateRecipeRequestDto requestDto){
-        return recipeService.create(requestDto);
+    public Long create(@RequestParam Long userId,
+                       @Valid @RequestBody CreateRecipeRequestDto requestDto){
+        return recipeService.create(userId, requestDto);
     }
 
     /** READ 단건 */
