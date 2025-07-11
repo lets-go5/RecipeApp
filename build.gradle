@@ -40,16 +40,19 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-// bcrypt
+    // bcrypt
     implementation 'at.favre.lib:bcrypt:0.10.2'
 
-// jwt
+    // jwt
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
     testRuntimeOnly 'com.h2database:h2'
 
-// redis
+    // In-memory Cache(Local Memory Cache)
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
 
