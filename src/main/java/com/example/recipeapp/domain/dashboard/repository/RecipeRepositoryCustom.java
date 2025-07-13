@@ -3,13 +3,14 @@ package com.example.recipeapp.domain.dashboard.repository;
 import com.example.recipeapp.domain.recipes.domain.model.Recipe;
 import com.example.recipeapp.domain.recipes.domain.model.RecipeCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-@Repository
+
 public interface RecipeRepositoryCustom extends JpaRepository<Recipe, Long> {
-    Recipe findTop1ByCategoryOrderByLikesDescCreatedAtDesc(RecipeCategory category, LocalDateTime start, LocalDateTime end);
+
+    Optional<Recipe> findCategoryTopRecipeOrderByLikes(RecipeCategory category, LocalDateTime start, LocalDateTime end);
 
     Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 }

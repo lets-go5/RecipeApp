@@ -27,7 +27,7 @@ public class DashboardController {
      */
     @GetMapping("/v1")
     public ResponseEntity<ApiResponse<DashboardResponseDto>> getDashboardV1() {
-           DashboardResponseDto dto =  dashboardService.dashboards();
+           DashboardResponseDto dto =  dashboardService.dashboardsV1();
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("전체 대시보드 조회에 성공했습니다.",dto));
     }
 
@@ -35,22 +35,32 @@ public class DashboardController {
      * v2-> 캐시 활용을 통해
      * @return
      */
-//    @GetMapping("/v2")
-//    public ResponseEntity<ApiResponse<DashboardResponseDto>> getDashboardV2() {
-//        DashboardResponseDto dto =  dashboardService.dashboardsV2();
-//        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("캐시를 통한 전체 대시보드 조회에 성공했습니다.",dto));
-//    }
+    @GetMapping("/v2")
+    public ResponseEntity<ApiResponse<DashboardResponseDto>> getDashboardV2() {
+        DashboardResponseDto dto =  dashboardService.dashboardsV2();
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("캐시를 통한 전체 대시보드 조회에 성공했습니다.",dto));
+    }
 
     /**
      * 카테고리 1등 레시피 조회
      */
     @GetMapping("/v1/{categories}")
-    public ResponseEntity<ApiResponse<CategoryBestRecipeResponseDto>> categoryRecipe(
+    public ResponseEntity<ApiResponse<CategoryBestRecipeResponseDto>> categoryRecipV1(
             @PathVariable("categories") RecipeCategory category) {
-       CategoryBestRecipeResponseDto dto = dashboardService.categoryRecipe(category);
+       CategoryBestRecipeResponseDto dto = dashboardService.categoryRecipeV1(category);
        return ResponseEntity.status(HttpStatus.OK).body(
                ApiResponse.success(category.getLabel() + "카테고리 베스트 레시피 조회 성공했습니다.",dto));
     }
+
+    //캐시사용
+    @GetMapping("/v2/{categories}")
+    public ResponseEntity<ApiResponse<CategoryBestRecipeResponseDto>> categoryRecipeV2(
+            @PathVariable("categories") RecipeCategory category) {
+        CategoryBestRecipeResponseDto dto = dashboardService.categoryRecipeV2(category);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiResponse.success(category.getLabel() + "카테고리 베스트 레시피 조회 성공했습니다.",dto));
+    }
+
     /**
      * 오늘의 레시피 앱 통계
      * todayRecipeCount -> 오늘의 신규레시피 개수
@@ -59,7 +69,15 @@ public class DashboardController {
      */
     @GetMapping("/v1/summary")
     public ResponseEntity<ApiResponse<DashboardSummaryResponseDto>> getSummary() {
-        DashboardSummaryResponseDto  dto = dashboardService.summary();
+        DashboardSummaryResponseDto  dto = dashboardService.summaryV1();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ApiResponse.success("통계 조회 성공",dto));
+    }
+
+    //캐시사용
+    @GetMapping("/v2/summary")
+    public ResponseEntity<ApiResponse<DashboardSummaryResponseDto>> getSummaryV2() {
+        DashboardSummaryResponseDto  dto = dashboardService.summaryV2();
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.success("통계 조회 성공",dto));
     }

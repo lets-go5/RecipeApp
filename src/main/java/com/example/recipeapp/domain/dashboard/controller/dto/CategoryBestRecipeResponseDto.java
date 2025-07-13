@@ -1,11 +1,13 @@
 package com.example.recipeapp.domain.dashboard.controller.dto;
 
-import com.example.recipeapp.domain.recipes.domain.model.Recipe;
-import com.example.recipeapp.domain.recipes.domain.model.RecipeCategory;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CategoryBestRecipeResponseDto {
 

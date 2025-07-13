@@ -1,8 +1,6 @@
 package com.example.recipeapp.domain.user.service;
 
 import com.example.recipeapp.domain.auth.domain.model.AuthUser;
-import com.example.recipeapp.domain.auth.service.AuthService;
-import com.example.recipeapp.domain.user.controller.dto.request.PasswordChangeRequestDto;
 import com.example.recipeapp.domain.user.controller.dto.response.UserResponseDto;
 import com.example.recipeapp.domain.user.domain.model.User;
 import com.example.recipeapp.domain.user.domain.repository.UserRepository;
@@ -65,5 +63,10 @@ public class UserService {
     public User findByIdAndIsDeletedFalseOrThrow(Long userId) {
         return userRepository.findByIdAndIsDeletedFalse(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    // InitDat 저장용 으로 만든 메서드임
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }
