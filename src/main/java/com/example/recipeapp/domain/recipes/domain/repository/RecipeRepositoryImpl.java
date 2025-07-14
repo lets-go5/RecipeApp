@@ -21,7 +21,7 @@ import static com.example.recipeapp.domain.recipes.domain.model.QRecipe.recipe;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
+public class RecipeRepositoryImpl implements RecipeRepositorySearchCustom {
 
     private final JPAQueryFactory queryFactory;
 
