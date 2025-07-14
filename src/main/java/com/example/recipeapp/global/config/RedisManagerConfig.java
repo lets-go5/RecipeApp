@@ -2,6 +2,7 @@ package com.example.recipeapp.global.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,13 +20,14 @@ import java.util.Map;
 @Configuration
 @EnableCaching
 public class RedisManagerConfig {
-    @Bean(name = "redisCacheManager")
-    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory, ObjectMapper objectMapper ) {
+    @Bean
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory,
+                                               @Qualifier("cacheObjectMapper") ObjectMapper cacheObjectMapper ) {
         RedisSerializationContext.SerializationPair<String> keySerializer =
                 RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer());
 
         RedisSerializationContext.SerializationPair<Object> valueSerializer =
-                RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
+                RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(cacheObjectMapper));
 
         RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(keySerializer)
