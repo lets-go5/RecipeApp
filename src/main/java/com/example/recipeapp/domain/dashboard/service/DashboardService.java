@@ -3,10 +3,10 @@ package com.example.recipeapp.domain.dashboard.service;
 import com.example.recipeapp.domain.dashboard.controller.dto.CategoryBestRecipeResponseDto;
 import com.example.recipeapp.domain.dashboard.controller.dto.DashboardResponseDto;
 import com.example.recipeapp.domain.dashboard.controller.dto.DashboardSummaryResponseDto;
-import com.example.recipeapp.domain.dashboard.repository.RecipeRepositoryCustom;
 import com.example.recipeapp.domain.like.domain.repository.LikeRepository;
 import com.example.recipeapp.domain.recipes.domain.model.Recipe;
 import com.example.recipeapp.domain.recipes.domain.model.RecipeCategory;
+import com.example.recipeapp.domain.recipes.domain.repository.RecipeRepository;
 import com.example.recipeapp.global.exception.CustomException;
 import com.example.recipeapp.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 public class DashboardService {
 
-    private final RecipeRepositoryCustom recipeRepository;
+    private final RecipeRepository recipeRepository;
     private final LikeRepository likeRepository;
 
     /**
