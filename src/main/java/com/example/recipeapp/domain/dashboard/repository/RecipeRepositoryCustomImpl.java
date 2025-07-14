@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class RecipeRepositoryCustomImpl implements RecipeQueryRepository{
+public class RecipeRepositoryCustomImpl implements RecipeRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
 

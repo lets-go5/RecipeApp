@@ -7,4 +7,4 @@ class HelloWorld(FastHttpUser):
 
   @task
   def hello(self):
-    response = self.client.get("/api/dashboards/v2")
+    response = self.client.get("/api/recipes/popular/v2")

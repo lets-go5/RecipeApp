@@ -1,24 +1,24 @@
 package com.example.recipeapp.domain.recipes.controller;
 
-import com.example.recipeapp.domain.recipes.controller.dto.*;
-import com.example.recipeapp.domain.recipes.domain.model.Recipe;
-import com.example.recipeapp.domain.recipes.domain.model.RecipeCategory;
-import com.example.recipeapp.domain.recipes.domain.repository.RecipeRepository;
-import com.example.recipeapp.global.exception.CustomException;
-import com.example.recipeapp.global.exception.ErrorCode;
-import com.example.recipeapp.global.response.ApiResponse;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import com.example.recipeapp.domain.auth.domain.model.AuthUser;
+import com.example.recipeapp.domain.recipes.controller.dto.PopularRecipe;
+import com.example.recipeapp.domain.recipes.controller.dto.RecipeCreateRequest;
+import com.example.recipeapp.domain.recipes.controller.dto.RecipeResponse;
+import com.example.recipeapp.domain.recipes.controller.dto.RecipeUpdateRequest;
+import com.example.recipeapp.domain.recipes.domain.repository.RecipeRepository;
 import com.example.recipeapp.domain.recipes.service.RecipeService;
 import com.example.recipeapp.domain.user.domain.model.User;
 import com.example.recipeapp.domain.user.domain.repository.UserRepository;
+import com.example.recipeapp.global.exception.CustomException;
+import com.example.recipeapp.global.exception.ErrorCode;
+import com.example.recipeapp.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -116,10 +116,18 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("레시피 검색에 성공했습니다", search));
     }
 
-    @GetMapping("/popular")
-    public ResponseEntity<ApiResponse<List<PopularRecipe>>> topKeywords (@RequestParam(defaultValue = "10") int limit)
+    @GetMapping("/popular/v1")
+    public ResponseEntity<ApiResponse<List<PopularRecipe>>> topKeywordsV1 (@RequestParam(defaultValue = "10") int limit)
     {
-        List<PopularRecipe> top = recipeService.topKeywords(limit);
+        List<PopularRecipe> top = recipeService.topKeywordsV1(limit);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("인기 키워드 검색에 성공했습니다", top));
+    }
+
+    @GetMapping("/popular/v2")
+    public ResponseEntity<ApiResponse<List<PopularRecipe>>> topKeywordsV2 (@RequestParam(defaultValue = "10") int limit)
+    {
+        List<PopularRecipe> top = recipeService.topKeywordsV2(limit);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("인기 키워드 검색에 성공했습니다", top));
     }

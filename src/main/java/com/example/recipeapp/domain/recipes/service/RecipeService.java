@@ -1,23 +1,24 @@
 package com.example.recipeapp.domain.recipes.service;
 
 import com.example.recipeapp.domain.recipes.cache.KeywordCounter;
-import com.example.recipeapp.domain.recipes.controller.dto.*;
+import com.example.recipeapp.domain.recipes.controller.dto.PopularRecipe;
+import com.example.recipeapp.domain.recipes.controller.dto.RecipeCreateRequest;
+import com.example.recipeapp.domain.recipes.controller.dto.RecipeResponse;
+import com.example.recipeapp.domain.recipes.controller.dto.RecipeUpdateRequest;
 import com.example.recipeapp.domain.recipes.domain.model.Recipe;
-import com.example.recipeapp.domain.recipes.domain.model.RecipeCategory;
 import com.example.recipeapp.domain.recipes.domain.repository.RecipeRepository;
 import com.example.recipeapp.domain.user.domain.model.User;
 import com.example.recipeapp.global.exception.CustomException;
 import com.example.recipeapp.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,7 +75,6 @@ public class RecipeService {
                 request.getImageUrl()
         );
 
-        recipe.update(request.getTitle(), request.getContent(), request.getCategory(), request.getImageUrl());
     }
 
     // 삭제 (soft delete)
@@ -124,7 +124,20 @@ public class RecipeService {
         return recipeRepository.search(keyword, pageable);
     }
 
-    public List<PopularRecipe> topKeywords(int limit) {
+    public List<PopularRecipe> topKeywordsV1(int limit) {
+        List<String> keywords = keywordCounter.getTopKeywords(limit);
+
+        return keywords.stream()
+                .map(keyword -> {
+                    List<RecipeResponse> recipes = recipeRepository.searchTopNByKeyword(keyword, 5)
+                            .stream().map(RecipeResponse::from).toList();
+                    return new PopularRecipe(keyword, recipes);
+                }).toList();
+    }
+
+    @Cacheable(value = "keywordsCacheV2", key = "#limit", cacheManager = "redisCacheManager")
+    public List<PopularRecipe> topKeywordsV2(int limit) {
+        System.out.println("==== 캐시 진입 ====");
         List<String> keywords = keywordCounter.getTopKeywords(limit);
 
         return keywords.stream()
